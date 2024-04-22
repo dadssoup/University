@@ -10,7 +10,16 @@
 
     <Grid>
         <Grid>
-            <ListView x:Name="RowsList" MouseDoubleClick="RowsList_MouseDoubleClick"/>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="AddButton" Content="Добавить" Click="AddButton_Click"/>
+                <Button x:Name="EditButton" Content="Изменить"/>
+                <Button x:Name="DeleteButton" Content="Удалить"/>
+            </StackPanel>
+            <ListView x:Name="RowsList" Grid.Row="1" MouseDoubleClick="RowsList_MouseDoubleClick"/>
         </Grid>
     </Grid>
 </Page>

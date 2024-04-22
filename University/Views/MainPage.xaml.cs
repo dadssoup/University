@@ -24,5 +24,11 @@ namespace University.Views
         {
             InitializeComponent();
         }
+
+        private void CatalogsB_Click(object sender, RoutedEventArgs e)
+        {
+            CatalogsPage catalogsPage = new CatalogsPage();
+            SecondNav.Navigate(catalogsPage);
+        }
     }
 }

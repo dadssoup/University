@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using University.Data;
 
 namespace University.Views
 {
@@ -28,11 +29,17 @@ namespace University.Views
         public CatalogRowsPage(string dbName)
         {
             InitializeComponent();
-
+            RowsList.ItemsSource = ApplicationContext.GetTable(dbName);
+            
             
         }
 
         private void RowsList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
         {
 
         }

@@ -1,15 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace University.Data
 {
-    public class ApplicationContext: DbContext
+    public interface IChoosable
     {
-        public DbSet<Person> Persons { get; set; }
+
+    }
+    public class ApplicationContext : DbContext
+    {
+        public DbSet<Person> People { get; set; }
         public DbSet<Student> Students { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<Curriculum> Curriculums { get; set; }
@@ -18,21 +24,93 @@ namespace University.Data
         public DbSet<Exam> Exams { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<Faculty> Faculties { get; set; }
+        private static ApplicationContext instance;
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite("Data Source=university.db");
         }
+        private ApplicationContext()
+        {
+            Database.EnsureCreated();
+        }
+        public static dynamic GetTable(string key)
+        {
+            switch (key)
+            {
+                case "Students":
+                    return instance.Students;
+                case "Студенты":
+                    return instance.Students;
+
+                case "People":
+                    return instance.People;
+                case "Физические лица":
+                    return instance.People;
+
+                case "Teachers":
+                    return instance.Teachers;
+                case "Преподаватели":
+                    return instance.Teachers;
+
+                case "CurriculumRows":
+                    return instance.CurriculumRows;
+                case "Записи учебного плана":
+                    return instance.CurriculumRows;
+
+                case "Curriculums":
+                    return instance.Curriculums;
+                case "Учебные планы":
+                    return instance.Curriculums;
+
+                case "Loads":
+                    return instance.Loads;
+                case "Нагрузка":
+                    return instance.Loads;
+
+                case "Groups":
+                    return instance.Groups;
+                case "Группы":
+                    return instance.Groups;
+
+                case "Exams":
+                    return instance.Exams;
+                case "Ведомости":
+                    return instance.Exams;
+
+                case "Faculties":
+                    return instance.Faculties;
+                case "Факультеты":
+                    return instance.Faculties;
+
+                default: throw new Exception("Неверное имя таблицы");
+            }
+        }
+        public static ApplicationContext GetInstance()
+        {
+            instance ??= new();
+            return instance;
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // использование Fluent API
+            base.OnModelCreating(modelBuilder);
+        }
 
     }
     [PrimaryKey(nameof(Id))]
-    public class Person
+    public class Person : IChoosable
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public DateOnly DateOfBirth { get; set; }
+        public bool DeletionMark { get; set; }
+        public override string ToString()
+        {
+            return Name ?? "<Имя физлица не задано>";
+        }
     }
     [PrimaryKey(nameof(Id))]
-    public class Student
+    public class Student : IChoosable
     {
         public int Id { get; set; }
         public int PersonId { get; set; }
@@ -40,18 +118,28 @@ namespace University.Data
         public int GroupId { get; set; }
         public Group? Group { get; set; }
         public string State { get; set; }
+        public bool DeletionMark { get; set; }
+        public override string ToString()
+        {
+            return $"{Person} ({Group})";
+        }
     }
     [PrimaryKey(nameof(Id))]
-    public class Teacher
+    public class Teacher : IChoosable
     {
         public int Id { get; set; }
         public int PersonId { get; set; }
         public Person? Person { get; set; }
         public string Position { get; set; }
         public string Degree { get; set; }
+        public bool DeletionMark { get; set; }
+        public override string ToString()
+        {
+            return $"{Person} ({Position ?? "безработый"})";
+        }
     }
     [PrimaryKey(nameof(Id))]
-    public class Curriculum
+    public class Curriculum : IChoosable
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -62,9 +150,14 @@ namespace University.Data
         public string Direction { get; set; }
         public string Level { get; set; }
         public int DurationSemesters { get; set; }
+        public bool DeletionMark { get; set; }
+        public override string ToString()
+        {
+            return Name ?? "<Имя учебного плана не задано>";
+        }
     }
     [PrimaryKey(nameof(Id))]
-    public class CurriculumRow
+    public class CurriculumRow : IChoosable
     {
         public int Id { get; set; }
         public int CurrriculumId { get; set; }
@@ -72,18 +165,28 @@ namespace University.Data
         public string Session { get; set; }
         public string Subject { get; set; }
         public string Control { get; set; }
+        public bool DeletionMark { get; set; }
+        public override string ToString()
+        {
+            return $"{Curriculum} -> {Subject} -> {Control} ({Session})";
+        }
     }
     [PrimaryKey(nameof(Id))]
-    public class Load
+    public class Load : IChoosable
     {
         public int Id { get; set; }
         public int CurriculumRowId { get; set; }
         public CurriculumRow? CurriculumRow { get; set; }
         public int TeacherId { get; set; }
         public Teacher? Teacher { get; set; }
+        public bool DeletionMark { get; set; }
+        public override string ToString()
+        {
+            return $"{Teacher}: {CurriculumRow}";
+        }
     }
     [PrimaryKey(nameof(Id))]
-    public class Exam
+    public class Exam : IChoosable
     {
         public int Id { get; set; }
         public int CurriculumRowId { get; set; }
@@ -91,19 +194,34 @@ namespace University.Data
         public int StudentId { get; set; }
         public Student? Student { get; set; }
         public string Mark { get; set; }
+        public bool DeletionMark { get; set; }
+        public override string ToString()
+        {
+            return $"{Student} ## {CurriculumRow}";
+        }
     }
     [PrimaryKey(nameof(Id))]
-    public class Group
+    public class Group : IChoosable
     {
         public int Id { get; set; }
         public int CurriculumRowId { get; set; }
         public CurriculumRow? CurriculumRow { get; set; }
         public string Name { get; set; }
+        public bool DeletionMark { get; set; }
+        public override string ToString()
+        {
+            return Name ?? "<Имя группы не задано>";
+        }
     }
     [PrimaryKey(nameof(Id))]
-    public class Faculty
+    public class Faculty : IChoosable
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public bool DeletionMark { get; set; }
+        public override string ToString()
+        {
+            return Name ?? "<Имя факультета не задано>";
+        }
     }
 }

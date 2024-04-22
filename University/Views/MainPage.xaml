@@ -14,7 +14,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" Grid.Row="0">
-            <Button x:Name="CatalogsB" Content="Справочники"/>
+            <Button x:Name="CatalogsB" Content="Справочники" Click="CatalogsB_Click"/>
             <Button x:Name="Reports" Content="Отчеты (запросы)"/>
         </StackPanel>
         <Frame x:Name="SecondNav" Grid.Row="1"/>

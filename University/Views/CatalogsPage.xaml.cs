@@ -31,7 +31,7 @@ namespace University.Views
             "Нагрузка",
             "Ведомости", 
             "Учебные планы",
-            "Строки учебного плана",
+            "Записи учебного плана",
             "Группы", 
             "Факультеты"
         };
@@ -43,25 +43,8 @@ namespace University.Views
 
         private void CatalogsList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-
-        }
-
-        private CatalogRowsPage GetPage(string pageName)
-        {
-            dynamic? context = null;
-            switch(pageName)
-            {
-                case "Студенты": context = nameof(ApplicationContext.Students); break;
-                case "Преподаватели": context = nameof(ApplicationContext.Teachers); break;
-                case "Физические лица": context = nameof(ApplicationContext.Persons); break;
-                case "Нагрузка": context = nameof(ApplicationContext.Loads); break;
-                case "Ведомости": context = nameof(ApplicationContext.Exams); break;
-                case "Учебные планы": context = nameof(ApplicationContext.Curriculums); break;
-                case "Строки учебного плана": context = nameof(ApplicationContext.CurriculumRows); break;
-                case "Группы": context = nameof(ApplicationContext.Groups); break;
-                case "Факультеты": context = nameof(ApplicationContext.Faculties); break;
-            }
-            return new(context);
+            var CatalogsPage = new CatalogRowsPage(((System.Windows.Controls.Primitives.Selector)sender).SelectedItem as string);
+            this.NavigationService.Navigate(CatalogsPage);
         }
     }
     
