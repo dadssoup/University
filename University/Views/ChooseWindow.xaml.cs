@@ -20,74 +20,18 @@ namespace University.Views
     /// </summary>
     public partial class ChooseWindow : Window
     {
-        dynamic tableRow;
-        public ChooseWindow(ref Person? tableRow)
+        public event EventHandler<dynamic> ValueSelected;
+        public ChooseWindow(string searchKey)
         {
             InitializeComponent();
             
-            this.tableRow = tableRow;
-            SearchList.ItemsSource = ApplicationContext.GetTable("People");
-        }
-        public ChooseWindow(ref Student? tableRow)
-        {
-            InitializeComponent();
-
-            this.tableRow = tableRow;
-            SearchList.ItemsSource = ApplicationContext.GetTable("Students");
-        }
-        public ChooseWindow(ref Teacher? tableRow)
-        {
-            InitializeComponent();
-
-            this.tableRow = tableRow;
-            SearchList.ItemsSource = ApplicationContext.GetTable("Teachers");
-        }
-        public ChooseWindow(ref Curriculum? tableRow)
-        {
-            InitializeComponent();
-
-            this.tableRow = tableRow;
-            SearchList.ItemsSource = ApplicationContext.GetTable("Curriculums");
-        }
-        public ChooseWindow(ref CurriculumRow? tableRow)
-        {
-            InitializeComponent();
-
-            this.tableRow = tableRow;
-            SearchList.ItemsSource = ApplicationContext.GetTable("CurriculumRows");
-        }
-        public ChooseWindow(ref Load? tableRow)
-        {
-            InitializeComponent();
-
-            this.tableRow = tableRow;
-            SearchList.ItemsSource = ApplicationContext.GetTable("Loads");
-        }
-        public ChooseWindow(ref Exam? tableRow)
-        {
-            InitializeComponent();
-
-            this.tableRow = tableRow;
-            SearchList.ItemsSource = ApplicationContext.GetTable("Exams");
-        }
-        public ChooseWindow(ref Group? tableRow)
-        {
-            InitializeComponent();
-
-            this.tableRow = tableRow;
-            SearchList.ItemsSource = ApplicationContext.GetTable("Groups");
-        }
-        public ChooseWindow(ref Faculty? tableRow)
-        {
-            InitializeComponent();
-
-            this.tableRow = tableRow;
-            SearchList.ItemsSource = ApplicationContext.GetTable("Faculties");
+            
+            SearchList.ItemsSource = ApplicationContext.GetTable(searchKey);
         }
 
         private void SearchList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            tableRow = ((ListView)sender).SelectedValue;
+            ValueSelected?.Invoke(this, ((ListView)sender).SelectedValue);
             Close();
         }
     }

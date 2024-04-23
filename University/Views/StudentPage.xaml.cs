@@ -36,8 +36,14 @@ namespace University.Views
 
         private void ChoosePerson_Click(object sender, RoutedEventArgs e)
         {
-            var CatalogsPage = new ChooseWindow(ref PersonToBind);
-            this.NavigationService.Navigate(CatalogsPage);
+            var ChooseWindow = new ChooseWindow("People");
+            ChooseWindow.ValueSelected += ChooseWindow_ValueSelected;
+            this.NavigationService.Navigate(ChooseWindow);
+        }
+
+        private void ChooseWindow_ValueSelected(object? sender, dynamic e)
+        {
+            PersonToBind = e;
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
