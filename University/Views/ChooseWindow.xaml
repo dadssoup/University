@@ -16,9 +16,9 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <TextBox x:Name="SearchBox"/>
+            <TextBox x:Name="SearchBox" Grid.Column="0"/>
             <Button x:Name="Search" Content="Найти..." Grid.Column="1"/>
         </Grid>
-        <ListView x:Name="SearchList" MouseDoubleClick="SearchList_MouseDoubleClick"/>
+        <ListView x:Name="SearchList" MouseDoubleClick="SearchList_MouseDoubleClick" Grid.Row="1"/>
     </Grid>
 </Window>

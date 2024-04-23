@@ -14,11 +14,27 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <StackPanel Orientation="Horizontal">
-                <Button x:Name="AddButton" Content="Добавить" Click="AddButton_Click"/>
-                <Button x:Name="EditButton" Content="Изменить"/>
-                <Button x:Name="DeleteButton" Content="Удалить"/>
-            </StackPanel>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" Grid.Column="0">
+                    <Button x:Name="AddButton" Content="Добавить" Click="AddButton_Click"/>
+                    <Button x:Name="EditButton" Content="Изменить"/>
+                    <Button x:Name="DeleteButton" Content="Удалить"/>
+                </StackPanel>
+                <Grid Grid.Column="1" Margin="5 0 0 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="SearchBox"/>
+                    <Button x:Name="SearchButton" Content="Найти..." Grid.Column="1"/>
+                </Grid>
+            </Grid>
+            
+            
             <ListView x:Name="RowsList" Grid.Row="1" MouseDoubleClick="RowsList_MouseDoubleClick"/>
         </Grid>
     </Grid>

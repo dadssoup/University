@@ -36,7 +36,7 @@ namespace University.Views
 
         private void RowsList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-
+            return;
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)

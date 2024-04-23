@@ -25,7 +25,7 @@ namespace University.Views
         {
             InitializeComponent();
             
-            
+
             SearchList.ItemsSource = ApplicationContext.GetTable(searchKey);
         }
 
