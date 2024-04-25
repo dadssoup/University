@@ -20,13 +20,18 @@ namespace University.Views
     /// </summary>
     public partial class ChooseWindow : Window
     {
-        public event EventHandler<dynamic> ValueSelected;
+        public event EventHandler<dynamic>? ValueSelected;
+        dynamic SourceCollection;
+
+        //dynamic FilteredCollection;
+        //bool isFiltered = false;
         public ChooseWindow(string searchKey)
         {
             InitializeComponent();
             
-
-            SearchList.ItemsSource = ApplicationContext.GetTable(searchKey);
+            SourceCollection = ApplicationContext.GetTable(searchKey);
+            //FilteredCollection = SourceCollection;
+            SearchList.ItemsSource = SourceCollection;
         }
 
         private void SearchList_MouseDoubleClick(object sender, MouseButtonEventArgs e)

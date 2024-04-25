@@ -58,6 +58,7 @@ namespace University.Views
             currentStudent.Person = PersonToBind;
             currentStudent.PersonId = PersonToBind.Id;
             _ = SaveStudent();
+            NavigationService.GoBack();
             //var result = SaveStudent();
             //if(!result)
             //{
