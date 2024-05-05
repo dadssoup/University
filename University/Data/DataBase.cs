@@ -9,10 +9,6 @@ using System.Xml.Linq;
 
 namespace University.Data
 {
-    public interface IChoosable
-    {
-
-    }
     public class ApplicationContext : DbContext
     {
         public DbSet<Person> People { get; set; }
@@ -98,19 +94,28 @@ namespace University.Data
 
     }
     [PrimaryKey(nameof(Id))]
-    public class Person : IChoosable
+    public class Person
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public DateOnly DateOfBirth { get; set; }
         public bool DeletionMark { get; set; }
+        public bool Sex { get; set; }
         public override string ToString()
         {
             return Name ?? "<Имя физлица не задано>";
         }
     }
+    public class PersonParent
+    {
+        public int PersonId { get; set; }
+        public Person? Person { get; set; }
+        public int ParentId { get; set; }
+        public Person? Parent { get; set; }
+        public string Relation { get; set; }
+    }
     [PrimaryKey(nameof(Id))]
-    public class Student : IChoosable
+    public class Student
     {
         public int Id { get; set; }
         public int PersonId { get; set; }
@@ -125,7 +130,7 @@ namespace University.Data
         }
     }
     [PrimaryKey(nameof(Id))]
-    public class Teacher : IChoosable
+    public class Teacher
     {
         public int Id { get; set; }
         public int PersonId { get; set; }
@@ -139,7 +144,7 @@ namespace University.Data
         }
     }
     [PrimaryKey(nameof(Id))]
-    public class Curriculum : IChoosable
+    public class Curriculum
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -157,7 +162,7 @@ namespace University.Data
         }
     }
     [PrimaryKey(nameof(Id))]
-    public class CurriculumRow : IChoosable
+    public class CurriculumRow
     {
         public int Id { get; set; }
         public int CurrriculumId { get; set; }
@@ -172,7 +177,7 @@ namespace University.Data
         }
     }
     [PrimaryKey(nameof(Id))]
-    public class Load : IChoosable
+    public class Load
     {
         public int Id { get; set; }
         public int CurriculumRowId { get; set; }
@@ -180,13 +185,15 @@ namespace University.Data
         public int TeacherId { get; set; }
         public Teacher? Teacher { get; set; }
         public bool DeletionMark { get; set; }
+        public int Hours { get; set; }
+        public int HoursParts { get; set; }
         public override string ToString()
         {
             return $"{Teacher}: {CurriculumRow}";
         }
     }
     [PrimaryKey(nameof(Id))]
-    public class Exam : IChoosable
+    public class Exam
     {
         public int Id { get; set; }
         public int CurriculumRowId { get; set; }
@@ -201,7 +208,7 @@ namespace University.Data
         }
     }
     [PrimaryKey(nameof(Id))]
-    public class Group : IChoosable
+    public class Group
     {
         public int Id { get; set; }
         public int CurriculumRowId { get; set; }
@@ -214,7 +221,7 @@ namespace University.Data
         }
     }
     [PrimaryKey(nameof(Id))]
-    public class Faculty : IChoosable
+    public class Faculty
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -222,6 +229,22 @@ namespace University.Data
         public override string ToString()
         {
             return Name ?? "<Имя факультета не задано>";
+        }
+    }
+    [PrimaryKey(nameof(Id))]
+    public class Diploma
+    {
+        public int Id { get; set; }
+        public int StudentId { get; set; }
+        public Student? Student { get; set; }
+        public int TeacherId { get; set; }
+        public Teacher? Teacher { get; set; }
+        public int LoadId { get; set; }
+        public Load? Load { get; set; }
+        public string Theme { get; set; }
+        public override string ToString()
+        {
+            return $"{Student}, тема - {Theme ?? "<->"}";
         }
     }
 }
