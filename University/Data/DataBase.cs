@@ -20,6 +20,8 @@ namespace University.Data
         public DbSet<Exam> Exams { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<Faculty> Faculties { get; set; }
+        public DbSet<Diploma> Diplomas { get; set; }
+        public DbSet<Dissertation> Dissertations { get; set; }
         private static ApplicationContext instance;
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -78,6 +80,16 @@ namespace University.Data
                 case "Факультеты":
                     return instance.Faculties;
 
+                case "Diplomas":
+                    return instance.Diplomas;
+                case "Дипломы":
+                    return instance.Diplomas;
+
+                case "Dissertations":
+                    return instance.Dissertations;
+                case "Диссертации":
+                    return instance.Dissertations;
+
                 default: throw new Exception("Неверное имя таблицы");
             }
         }
@@ -101,18 +113,11 @@ namespace University.Data
         public DateOnly DateOfBirth { get; set; }
         public bool DeletionMark { get; set; }
         public bool Sex { get; set; }
+        public int KidsCount {  get; set; }
         public override string ToString()
         {
             return Name ?? "<Имя физлица не задано>";
         }
-    }
-    public class PersonParent
-    {
-        public int PersonId { get; set; }
-        public Person? Person { get; set; }
-        public int ParentId { get; set; }
-        public Person? Parent { get; set; }
-        public string Relation { get; set; }
     }
     [PrimaryKey(nameof(Id))]
     public class Student
@@ -124,6 +129,7 @@ namespace University.Data
         public Group? Group { get; set; }
         public string State { get; set; }
         public bool DeletionMark { get; set; }
+        public DateOnly EnrollmentDate { get; set; }
         public override string ToString()
         {
             return $"{Person} ({Group})";
@@ -138,6 +144,8 @@ namespace University.Data
         public string Position { get; set; }
         public string Degree { get; set; }
         public bool DeletionMark { get; set; }
+        public int Salary { get; set; }
+        public DateOnly RecruitmentDate { get; set; }
         public override string ToString()
         {
             return $"{Person} ({Position ?? "безработый"})";
@@ -245,6 +253,19 @@ namespace University.Data
         public override string ToString()
         {
             return $"{Student}, тема - {Theme ?? "<->"}";
+        }
+    }
+    [PrimaryKey(nameof(Id))]
+    public class Dissertation
+    {
+        public int Id { get; set; } 
+        public int TeacherId { get; set; }
+        public Teacher? Teacher { get; set; }
+        public string Level { get; set; }
+        public DateOnly Date { get; set; }
+        public override string ToString()
+        {
+            return $"Диссертация {Teacher} на уровень {Level ?? "<->"}";
         }
     }
 }
