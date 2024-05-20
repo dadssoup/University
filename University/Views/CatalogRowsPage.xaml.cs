@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,7 @@ namespace University.Views
     /// </summary>
     public partial class CatalogRowsPage : Page
     {
+        
         public CatalogRowsPage()
         {
             InitializeComponent();
@@ -29,7 +31,9 @@ namespace University.Views
         public CatalogRowsPage(string dbName)
         {
             InitializeComponent();
-            RowsList.ItemsSource = ApplicationContext.GetTable(dbName);
+            var collection = ((DbSet<Student>)ApplicationContext.GetTable(dbName));
+            collection.Load();
+            RowsList.ItemsSource = collection.Local.ToObservableCollection();
             
             
         }
@@ -41,7 +45,8 @@ namespace University.Views
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-
+            var studentPage = new StudentPage();
+            NavigationService.Navigate(studentPage);
         }
     }
 }

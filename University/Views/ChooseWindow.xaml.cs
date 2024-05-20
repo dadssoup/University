@@ -31,7 +31,8 @@ namespace University.Views
             
             SourceCollection = ApplicationContext.GetTable(searchKey);
             //FilteredCollection = SourceCollection;
-            SearchList.ItemsSource = SourceCollection;
+            SourceCollection.Load();
+            SearchList.ItemsSource = SourceCollection.Local.ToObservableCollection(); ;
         }
 
         private void SearchList_MouseDoubleClick(object sender, MouseButtonEventArgs e)

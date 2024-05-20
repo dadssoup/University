@@ -36,59 +36,59 @@ namespace University.Data
             switch (key)
             {
                 case "Students":
-                    return instance.Students;
+                    return GetInstance().Students;
                 case "Студенты":
-                    return instance.Students;
+                    return GetInstance().Students;
 
                 case "People":
-                    return instance.People;
+                    return GetInstance().People;
                 case "Физические лица":
-                    return instance.People;
+                    return GetInstance().People;
 
                 case "Teachers":
-                    return instance.Teachers;
+                    return GetInstance().Teachers;
                 case "Преподаватели":
-                    return instance.Teachers;
+                    return GetInstance().Teachers;
 
                 case "CurriculumRows":
-                    return instance.CurriculumRows;
+                    return GetInstance().CurriculumRows;
                 case "Записи учебного плана":
-                    return instance.CurriculumRows;
+                    return GetInstance().CurriculumRows;
 
                 case "Curriculums":
-                    return instance.Curriculums;
+                    return GetInstance().Curriculums;
                 case "Учебные планы":
-                    return instance.Curriculums;
+                    return GetInstance().Curriculums;
 
                 case "Loads":
-                    return instance.Loads;
+                    return GetInstance().Loads;
                 case "Нагрузка":
-                    return instance.Loads;
+                    return GetInstance().Loads;
 
                 case "Groups":
-                    return instance.Groups;
+                    return GetInstance().Groups;
                 case "Группы":
-                    return instance.Groups;
+                    return GetInstance().Groups;
 
                 case "Exams":
-                    return instance.Exams;
+                    return GetInstance().Exams;
                 case "Ведомости":
-                    return instance.Exams;
+                    return GetInstance().Exams;
 
                 case "Faculties":
-                    return instance.Faculties;
+                    return GetInstance().Faculties;
                 case "Факультеты":
-                    return instance.Faculties;
+                    return GetInstance().Faculties;
 
                 case "Diplomas":
-                    return instance.Diplomas;
+                    return GetInstance().Diplomas;
                 case "Дипломы":
-                    return instance.Diplomas;
+                    return GetInstance().Diplomas;
 
                 case "Dissertations":
-                    return instance.Dissertations;
+                    return GetInstance().Dissertations;
                 case "Диссертации":
-                    return instance.Dissertations;
+                    return GetInstance().Dissertations;
 
                 default: throw new Exception("Неверное имя таблицы");
             }
@@ -219,8 +219,8 @@ namespace University.Data
     public class Group
     {
         public int Id { get; set; }
-        public int CurriculumRowId { get; set; }
-        public CurriculumRow? CurriculumRow { get; set; }
+        public int CurriculumId { get; set; }
+        public Curriculum? Curriculum { get; set; }
         public string Name { get; set; }
         public bool DeletionMark { get; set; }
         public override string ToString()
